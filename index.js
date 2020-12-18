@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 
+let products = [{}];
+
 (async () => {
     const browser = await puppeteer.launch({
         headless: false,
@@ -13,12 +15,12 @@ const puppeteer = require('puppeteer');
         page.waitForNavigation(), // The promise resolves after navigation has finished
         page.click('#ctl00_cpholder_bLogin')// Clicking the link will indirectly cause a navigation
     ]);
-    await page.goto("https://www.disway.com/productdetails.aspx?id=20000020&itemno=MASTER_DESKTOP&filter=2000000357")
-    await page.evaluate(() => {
-        const example = document.querySelector('#ctl00_cpholder_ctl00_ChildItems_PageSizectl_dlPageSize');
-        const example_options = example.querySelectorAll('option');
-        const selected_option = [...example_options].find(option => option.text === 'Tous');
-        selected_option.selected = true;
-    });
-    await page.screenshot({ path: "screenshoot.png" });
+    await page.goto("https://www.disway.com/productdetails.aspx?id=20000026&itemno=MASTER_PC_PORTABLES&filter=2000000277")
+    await page.select("select#ctl00_cpholder_ctl00_ChildItems_PageSizectl_dlPageSize", "9999")
+
+    for (const parent of await page.$$('div.div-table-row')) {
+        for (const child of await parent.$$('div.div-table-col.col-text.col-item.text-left')) {
+            await child.$("span#spnShortDescription").getProperty("textContent");
+        }
+    }
 })();
