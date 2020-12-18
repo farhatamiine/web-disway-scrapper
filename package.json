@@ -1,0 +1,29 @@
+{
+  "name": "disway",
+  "version": "1.0.0",
+  "description": "Web Scrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farhatamiine/web-disway-scrapper.git"
+  },
+  "keywords": [
+    "WebScrapper",
+    "Node",
+    "Js",
+    "Javascript"
+  ],
+  "author": "amine farhat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/farhatamiine/web-disway-scrapper/issues"
+  },
+  "homepage": "https://github.com/farhatamiine/web-disway-scrapper#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "puppeteer": "^5.5.0"
+  }
+}
