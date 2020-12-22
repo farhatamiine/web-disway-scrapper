@@ -4,7 +4,7 @@
   "description": "Web Scrapper",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
   "homepage": "https://github.com/farhatamiine/web-disway-scrapper#readme",
   "dependencies": {
     "axios": "^0.21.0",
-    "puppeteer": "^5.5.0"
+    "chalk": "^4.1.0",
+    "puppeteer": "^5.5.0",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
