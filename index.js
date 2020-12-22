@@ -1,26 +1,34 @@
 const puppeteer = require('puppeteer');
 
-let products = [{}];
+function delay(time) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, time)
+    });
+}
 
-(async () => {
+async function getAllProductRef(LINKS) {
     const browser = await puppeteer.launch({
         headless: false,
         defaultViewport: { isLandscape: true, width: 1366, height: 768 }
     });
     const page = await browser.newPage();
-    await page.goto('https://www.disway.com/login.aspx');
-    await page.type('#txtUserName', 'mghamir6883');
-    await page.type('#ctl00_cpholder_txtPassword', 'MG68AMR@2018@2019');
-    const [response] = await Promise.all([
-        page.waitForNavigation(), // The promise resolves after navigation has finished
-        page.click('#ctl00_cpholder_bLogin')// Clicking the link will indirectly cause a navigation
-    ]);
-    await page.goto("https://www.disway.com/productdetails.aspx?id=20000026&itemno=MASTER_PC_PORTABLES&filter=2000000277")
+    await page.goto(LINKS, { waitUntil: 'networkidle2' })
     await page.select("select#ctl00_cpholder_ctl00_ChildItems_PageSizectl_dlPageSize", "9999")
-
-    for (const parent of await page.$$('div.div-table-row')) {
-        for (const child of await parent.$$('div.div-table-col.col-text.col-item.text-left')) {
-            await child.$("span#spnShortDescription").getProperty("textContent");
-        }
+    console.log("Done 1");
+    await delay(10000);
+    console.log("Done 2");
+    const products = [];
+    const option = await page.$$eval("span#spnShortDescription", a => a.length);
+    console.log(option);
+    for (let index = 0; index < option; index++) {
+        let selector = index < 9 ? "#ctl00_cpholder_ctl00_ChildItems_rptchilditems_ctl0" + index + "_Hk2" : "#ctl00_cpholder_ctl00_ChildItems_rptchilditems_ctl" + index + "_Hk2"
+        const ref = await page.$$eval(selector, r => r.map(s => s.href));
+        products.push(ref[0])
     }
-})();
+    browser.close()
+    return products.filter(function (el) {
+        return el != null;
+    });
+};
+
+console.table(getAllProductRef("https://www.disway.com/productdetails.aspx?id=20000034&itemno=MASTER_TAB_SMARTPHON").then(e => console.log(e)))
