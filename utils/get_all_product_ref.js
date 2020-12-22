@@ -1,13 +1,8 @@
-const chalk = require('chalk');
+const { delay } = require('./function')
 const puppeteer = require('puppeteer');
-
-function delay(time) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, time)
-    });
-}
-
-async function getAllProductRef(LINKS) {
+const chalk = require('chalk');
+exports.getAllProductRef = async (LINKS) => {
+    console.log(chalk.green("Getting product link..."));
     const browser = await puppeteer.launch({
         headless: false,
         defaultViewport: { isLandscape: true, width: 1366, height: 768 }
@@ -16,7 +11,7 @@ async function getAllProductRef(LINKS) {
     const page = await browser.newPage();
     await page.goto(LINKS, { waitUntil: 'networkidle2' })
     await page.select("select#ctl00_cpholder_ctl00_ChildItems_PageSizectl_dlPageSize", "9999")
-    console.log(chalk.red("Waiting for filter..."));
+    console.log(chalk.green("Waiting for filter..."));
     await delay(10000);
     console.log(chalk.green("Done"));
     const option = await page.$$eval("span#spnShortDescription", a => a.length);
