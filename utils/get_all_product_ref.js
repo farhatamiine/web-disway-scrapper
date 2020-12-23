@@ -1,10 +1,11 @@
 const { delay } = require('./function')
 const puppeteer = require('puppeteer');
 const chalk = require('chalk');
+
 exports.getAllProductRef = async (LINKS) => {
     console.log(chalk.green("Getting product link..."));
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         defaultViewport: { isLandscape: true, width: 1366, height: 768 }
     });
     const products = [];

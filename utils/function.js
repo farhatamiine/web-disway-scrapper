@@ -6,7 +6,7 @@ delay = (time) => {
     });
 }
 
-exportToExcel = () => {
+exportToExcel = (scrapedData) => {
     console.log(chalk.green("Exporting to excel..."));
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(scrapedData);
